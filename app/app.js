@@ -5,13 +5,12 @@
 // =================================================================================
 
 const {App} = require('jovo-framework');
-
+        var https = require('https');
 const config = {
     logging: true,
 };
 
 const app = new App(config);
-
 
 // =================================================================================
 // App Logic
@@ -23,49 +22,67 @@ app.setHandler({
     },
 
     'status': function() {
-        this.ask('What more you need Guruji');
+        this.ask('Hey There, How can i help you');
     },
 //    'saturday': function(sunday){
 //        this.tell('Tomorrow is saturday Hurray!' + sunday.value);
 //    },
-    'saturday': function(friday){
-        getlatest();
-         this.tell(' working Yea');
-//        this.ask('Cool you live in' + friday.value + '. It\'s a nice place.'+ 'What Else You need Guruji');
+    'last_status_overview': function(){          
+              https.get('https://35e952ac.ngrok.io/status', (res) => {
+              console.log('statusCode:', res.statusCode);
+              console.log('headers:', res.headers);
+            
+              res.on('data', (d) => {
+                var dataJson = d.toString('utf8');
+
+                console.log("body: ", d.toString('utf8'));
+
+              
+               // process.stdout.write(d);
+               
+                console.log("Last status" +  d.toString('utf8'));
+                this.ask(d.toString('utf8') + " Anything else you need");
+              });
+            
+            }).on('error', (e) => {
+              console.error(e); 
+            this.tell('Error getting the Info');
+            });
     },
+    'cluster_type': function(){
+              https.get('https://35e952ac.ngrok.io/cluster_type', (res) => {
+              console.log('statusCode:', res.statusCode);
+              console.log('headers:', res.headers);
+            
+              res.on('data', (d) => {
+                var dataJson = d.toString('utf8');
+
+                console.log("body: ", d.toString('utf8'));
+
+              
+               // process.stdout.write(d);
+               
+                console.log("Last status" +  d.toString('utf8'));
+                this.ask(d.toString('utf8') + ". Anything else you need");
+              });
+            
+            }).on('error', (e) => {
+              console.error(e); 
+            this.tell('Error getting the Info');
+            });
+    },
+    'commands': function(){
+        this.ask("You can ask me: Tell me about last run, tell me the cluster type");
+    },
+    'AMAZON.CancelIntent': function(){
+    
+    this.tell("Adios");
+    },
+    
+    'AMAZON.NoIntent': function(name) {
+        this.ask('I dont know that. TO know available commands you can say what are the commands')
+    }
 });
 
-
-
-function getlatest() {
-    var http = require("https");
-
-var options = {
-  "method": "GET",
-  gzip:true,
-  "hostname": "telcobigdata-test-margin-assurance-ui.cfapps.sap.hana.ondemand.com",
-  "port": 443,
-  "path": "/destination/SAP_BDPT_RSD/runsettingsdefinition/CalculationRuns?%24filter=LANGUAGE%20eq%20'en'%20and%20RUN_TYPE%20ne%20'UPLOAD'&%24orderby=CREATED_AT%20desc&%24top=1&%24skip=0&%24inlinecount=allpages&%24format=json",
-  "headers": {
-    "authorization": "Basic bmlzaGFudC5uYWxhd2FkZUBzYXAuY29tOkZyb3N0NFJlYWwh",
-    "cache-control": "no-cache",
-    "token": "b270d99c-c77a-8231-10b9-35fbf5cc2470"
-  }
-};
-
-var req = http.request(options, function (res) {
-  var chunks = [];
-
-  res.on("data", function (chunk) {
-    chunks.push(chunk);
-  });
-
-  res.on("end", function () {
-    var body = Buffer.concat(chunks);
-    console.log(body.toString());
-  });
-});
-
-req.end();}
 
 module.exports.app = app;

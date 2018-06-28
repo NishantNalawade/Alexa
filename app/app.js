@@ -28,7 +28,7 @@ app.setHandler({
 //        this.tell('Tomorrow is saturday Hurray!' + sunday.value);
 //    },
     'last_status_overview': function(){          
-              https.get('https://35e952ac.ngrok.io/status', (res) => {
+              https.get('https://a2dcfb72.ngrok.io/status', (res) => {
               console.log('statusCode:', res.statusCode);
               console.log('headers:', res.headers);
             

@@ -28,7 +28,7 @@ app.setHandler({
 //        this.tell('Tomorrow is saturday Hurray!' + sunday.value);
 //    },
     'last_status_overview': function(){          
-              https.get('https://cb104628.ngrok.io/status', (res) => {
+              https.get('https://221876b8.ngrok.io/status', (res) => {
               console.log('statusCode:', res.statusCode);
               console.log('headers:', res.headers);
             
@@ -50,7 +50,7 @@ app.setHandler({
             });
     },
     'cluster_type': function(){
-              https.get('https://cb104628.ngrok.io/cluster_type', (res) => {
+              https.get('https://221876b8.ngrok.io/cluster_type', (res) => {
               console.log('statusCode:', res.statusCode);
               console.log('headers:', res.headers);
             

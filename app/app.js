@@ -11,6 +11,7 @@ const config = {
 };
 
 const app = new App(config);
+var ngrok_url = 'https://76dc6d2c.ngrok.io' ;
 
 // =================================================================================
 // App Logic
@@ -28,7 +29,7 @@ app.setHandler({
 //        this.tell('Tomorrow is saturday Hurray!' + sunday.value);
 //    },
     'last_status_overview': function(){          
-              https.get('https://3c0e3d1b.ngrok.io/status', (res) => {
+              https.get(ngrok_url + '/status', (res) => {
               console.log('statusCode:', res.statusCode);
               console.log('headers:', res.headers);
             
@@ -49,8 +50,8 @@ app.setHandler({
             this.tell('Error getting the Info');
             });
     },
-    'cluster_type': function(){
-              https.get('https://3c0e3d1b.ngrok.io/cluster_type', (res) => {
+	 'latest_product': function(){          
+              https.get(ngrok_url + '/product', (res) => {
               console.log('statusCode:', res.statusCode);
               console.log('headers:', res.headers);
             
@@ -63,7 +64,53 @@ app.setHandler({
                // process.stdout.write(d);
                
                 console.log("Last status" +  d.toString('utf8'));
-                this.ask(d.toString('utf8') + ". Anything else you need");
+                this.ask(d.toString('utf8') + " Anything else you need");
+              });
+            
+            }).on('error', (e) => {
+              console.error(e); 
+            this.tell('Error getting the Info');
+            });
+    },
+	
+	 'service': function(){          
+              https.get(ngrok_url + '/service', (res) => {
+              console.log('statusCode:', res.statusCode);
+              console.log('headers:', res.headers);
+            
+              res.on('data', (d) => {
+                var dataJson = d.toString('utf8');
+
+                console.log("body: ", d.toString('utf8'));
+
+              
+               // process.stdout.write(d);
+               
+                console.log("Last status" +  d.toString('utf8'));
+                this.ask(d.toString('utf8') + " Anything else you need?");
+              });
+            
+            }).on('error', (e) => {
+              console.error(e); 
+            this.tell('Error getting the Info');
+            });
+    },
+	
+    'metric_insights': function(){
+              https.get(ngrok_url + '/metric_insights', (res) => {
+              console.log('statusCode:', res.statusCode);
+              console.log('headers:', res.headers);
+            
+              res.on('data', (d) => {
+                var dataJson = d.toString('utf8');
+
+                console.log("body: ", d.toString('utf8'));
+
+              
+               // process.stdout.write(d);
+               
+                console.log("Last status" +  d.toString('utf8'));
+                this.ask(d.toString('utf8') + ". Anything else you need?");
               });
             
             }).on('error', (e) => {

@@ -26,6 +26,21 @@ const bodyParser = require('body-parser');
 // Initialize express server
 const server = express();
 server.use(bodyParser.json());
+server.post('/chatbot', function(req, res){
+
+  console.log(req.body)
+
+  res.send({
+    replies: [{
+      type: 'text',
+      content: 'Welcome to BDMA. This is from chatbot.',
+    }], 
+    conversation: {
+      memory: { key: 'value' }
+    }
+  })
+
+}); 
 server.post('/', function(req, res){
     app.handleWebhook(req, res);
 });

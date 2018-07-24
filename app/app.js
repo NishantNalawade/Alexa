@@ -11,7 +11,7 @@ const config = {
 };
 
 const app = new App(config);
-var ngrok_url = 'https://76dc6d2c.ngrok.io' ;
+var ngrok_url = 'https://7a8094ec.ngrok.io' ;
 
 // =================================================================================
 // App Logic
